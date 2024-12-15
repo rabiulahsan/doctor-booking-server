@@ -7,7 +7,7 @@ const getAllDoctors = async (req, res) => {
   try {
     const result = await doctorsCollection.find().toArray();
     res.status(200).send(result);
-  } catch (err) {
+  } catch (error) {
     res
       .status(500)
       .send({ message: "An error occurred", error: error.message });
@@ -16,8 +16,8 @@ const getAllDoctors = async (req, res) => {
 
 //post a doctor after sign in
 const postDoctor = async (req, res) => {
-  const doctor = req.body;
-  const query = { email: doctor.email };
+  const newDoctor = req.body;
+  const query = { email: newDoctor.email };
 
   try {
     // Check if the user already exists
@@ -26,7 +26,7 @@ const postDoctor = async (req, res) => {
       return res.status(409).send({ message: "Doctor already exists" });
     }
     // Insert new user
-    const result = await doctorsCollection.insertOne(user);
+    const result = await doctorsCollection.insertOne(newDoctor);
 
     if (result.insertedId) {
       res.status(201).send({
@@ -36,7 +36,7 @@ const postDoctor = async (req, res) => {
     } else {
       res.status(500).send({ message: "Failed to create doctor" });
     }
-  } catch (err) {
+  } catch (error) {
     res
       .status(500)
       .send({ message: "An error occurred", error: error.message });
