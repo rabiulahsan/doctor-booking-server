@@ -1,8 +1,12 @@
 const express = require("express");
-const { getAllDoctors } = require("../controllers/doctorsController");
+const {
+  getAllDoctors,
+  postDoctor,
+} = require("../controllers/doctorsController");
 
 const router = express.Router();
 
 router.get("/getalldoctors", getAllDoctors);
+router.post("/postdoctor", postDoctor);
 
 module.exports = router;
