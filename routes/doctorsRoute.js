@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 router.get("/getalldoctors", getAllDoctors);
-router.get("/getsingledoctor/", getSingleDoctor);
+router.get("/getsingledoctor", getSingleDoctor);
 router.post("/postdoctor", postDoctor);
 
 module.exports = router;
