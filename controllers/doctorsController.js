@@ -20,12 +20,12 @@ const postDoctor = async (req, res) => {
   const query = { email: newDoctor.email };
 
   try {
-    // Check if the user already exists
+    // Check if the doctor already exists
     const exist = await doctorsCollection.findOne(query);
     if (exist) {
       return res.status(409).send({ message: "Doctor already exists" });
     }
-    // Insert new user
+    // Insert new doctor
     const result = await doctorsCollection.insertOne(newDoctor);
 
     if (result.insertedId) {
@@ -43,4 +43,28 @@ const postDoctor = async (req, res) => {
   }
 };
 
-module.exports = { getAllDoctors, postDoctor };
+//get a single doctor
+const getSingleDoctor = async (req, res) => {
+  const email = req.query.email;
+
+  if (!email) {
+    return res
+      .status(400)
+      .send({ message: "Email query parameter is required" });
+  }
+  const query = { email };
+  try {
+    const doctor = await doctorsCollection.findOne(query); // Find doctor by email
+    if (doctor) {
+      res.status(200).send(doctor); // Send doctor data if found
+    } else {
+      res.status(404).send({ message: "Doctor not found" }); // Handle if doctor is not found
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "An error occurred", error: error.message });
+  }
+};
+
+module.exports = { getAllDoctors, postDoctor, getSingleDoctor };
