@@ -4,6 +4,7 @@ const cors = require("cors");
 const { run, db } = require("./utils/dbconnection");
 const doctorRoutes = require("./routes/doctorsRoute");
 const userRoutes = require("./routes/usersRoute");
+const jwtRoute = require("./routes/jwtRoute");
 
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -15,6 +16,7 @@ app.use(express.json());
 run();
 
 //routes
+app.use("/jwt", jwtRoute);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/users", userRoutes);
 
