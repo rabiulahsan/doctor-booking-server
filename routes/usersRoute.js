@@ -10,8 +10,8 @@ const verifyJWT = require("../utils/verifyJWT");
 const router = express.Router();
 
 router.get("/getallusers", getAllUsers);
-router.get("/getsingleuser", getSingleUser);
 router.post("/postuser", postUser);
 router.get("/role", verifyJWT, isUser);
+router.get("/getsingleuser/:id", getSingleUser);
 
 module.exports = router;

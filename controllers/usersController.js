@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { db } = require("../utils/dbconnection");
 const usersCollection = db.collection("users");
 
@@ -44,15 +45,13 @@ const postUser = async (req, res) => {
 
 //get a specific user
 const getSingleUser = async (req, res) => {
-  const email = req.query.email; // Get email from query parameters
+  const id = req.params.id;
 
-  if (!email) {
-    return res
-      .status(400)
-      .send({ message: "Email query parameter is required" });
+  if (!id) {
+    return res.status(400).send({ message: "Id is required" });
   }
 
-  const query = { email }; // Simplified query object creation
+  const query = { _id: new ObjectId(id) }; // Simplified query object creation
   //   console.log("Query:", query);
 
   try {
@@ -76,7 +75,7 @@ const isUser = async (req, res) => {
 
   // console.log(req.decoded);
   if (req.decoded.email !== email) {
-    res.send({ isUser: false });
+    return res.send({ isUser: false });
   }
 
   const query = { email: email };

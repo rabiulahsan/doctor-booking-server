@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { db } = require("../utils/dbconnection");
 
 const doctorsCollection = db.collection("doctors");
@@ -45,14 +46,12 @@ const postDoctor = async (req, res) => {
 
 //get a single doctor
 const getSingleDoctor = async (req, res) => {
-  const email = req.query.email;
+  const id = req.params.id;
 
-  if (!email) {
-    return res
-      .status(400)
-      .send({ message: "Email query parameter is required" });
+  if (!id) {
+    return res.status(400).send({ message: "id  is required" });
   }
-  const query = { email };
+  const query = { _id: new ObjectId(id) };
   try {
     const doctor = await doctorsCollection.findOne(query); // Find doctor by email
     if (doctor) {
@@ -75,7 +74,7 @@ const isDoctor = async (req, res) => {
   // console.log(req.decoded);
 
   if (req.decoded.email !== email) {
-    res.send({ isDoctor: false });
+    return res.send({ isDoctor: false });
   }
 
   const query = { email: email };
