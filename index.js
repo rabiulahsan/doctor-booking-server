@@ -7,6 +7,7 @@ const userRoutes = require("./routes/usersRoute");
 const jwtRoute = require("./routes/jwtRoute");
 const verifyJWT = require("./utils/verifyJWT");
 const verifyDoctor = require("./utils/verifyDoctor");
+const verifyUser = require("./utils/verifyUser");
 
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -38,7 +39,7 @@ app.get("/test-doctor", verifyJWT, verifyDoctor, (req, res) => {
 });
 
 //only user ( patient)
-app.get("/test-user", verifyJWT, (req, res) => {
+app.get("/test-user", verifyJWT, verifyUser, (req, res) => {
   res.send({ message: "You have access to this user protected route." });
 });
 
