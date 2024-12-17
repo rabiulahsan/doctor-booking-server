@@ -67,4 +67,22 @@ const getSingleDoctor = async (req, res) => {
   }
 };
 
-module.exports = { getAllDoctors, postDoctor, getSingleDoctor };
+//get doctor role by email
+const isDoctor = async (req, res) => {
+  const email = req.query.email;
+
+  // console.log(email);
+  // console.log(req.decoded);
+
+  if (req.decoded.email !== email) {
+    res.send({ isDoctor: false });
+  }
+
+  const query = { email: email };
+  const doctor = await doctorsCollection.findOne(query);
+  // console.log(doctor);
+  const result = { isDoctor: doctor?.role === "doctor" };
+  res.send(result);
+};
+
+module.exports = { getAllDoctors, postDoctor, getSingleDoctor, isDoctor };

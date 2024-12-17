@@ -13,8 +13,8 @@ const verifyJWT = (req, res, next) => {
 
   // bearer token
   const token = authorization.split(" ")[1];
-  console.log(token);
-  console.log(process.env.ACCESS_TOKEN);
+  // console.log(token);
+  // console.log(process.env.ACCESS_TOKEN);
 
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
     if (err) {

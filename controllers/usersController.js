@@ -69,4 +69,20 @@ const getSingleUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, postUser, getSingleUser };
+//get user role by email query
+const isUser = async (req, res) => {
+  const email = req.query.email;
+  // console.log(email);
+
+  // console.log(req.decoded);
+  if (req.decoded.email !== email) {
+    res.send({ isUser: false });
+  }
+
+  const query = { email: email };
+  const user = await usersCollection.findOne(query);
+  const result = { isUser: user?.role === "user" };
+  res.send(result);
+};
+
+module.exports = { getAllUsers, postUser, getSingleUser, isUser };
