@@ -112,10 +112,29 @@ const updateDoctor = async (req, res) => {
   }
 };
 
+//delete a doctor
+const deleteDoctor = async (req, res) => {
+  const doctorId = req.params.doctorId;
+
+  try {
+    const query = { _id: new ObjectId(String(doctorId)) };
+    const result = await doctorsCollection.deleteOne(query);
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    } else {
+      return res.json({ message: "Doctor deleted successfully", result });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting doctor", error });
+  }
+};
+
 module.exports = {
   getAllDoctors,
   postDoctor,
   getSingleDoctor,
   isDoctor,
   updateDoctor,
+  deleteDoctor,
 };
