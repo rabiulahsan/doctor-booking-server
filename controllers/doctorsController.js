@@ -84,4 +84,38 @@ const isDoctor = async (req, res) => {
   res.send(result);
 };
 
-module.exports = { getAllDoctors, postDoctor, getSingleDoctor, isDoctor };
+//api for updating a doctor
+const updateDoctor = async (req, res) => {
+  try {
+    const doctorId = req.params.doctorId;
+    const updatedDoctor = req.body;
+
+    // Add `updated_at` timestamp to the update data
+    updatedDoctor.updated_at = new Date();
+    // console.log(updatedDoctor);
+
+    // Update the doctor in the collection
+    const result = await doctorsCollection.updateOne(
+      { _id: new ObjectId(String(doctorId)) }, // Filter by the doctors's ID
+      { $set: updatedDoctor }, // Set the updated fields
+      { upsert: true }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    res.json({ message: "Doctor updated successfully", result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating doctor", error });
+  }
+};
+
+module.exports = {
+  getAllDoctors,
+  postDoctor,
+  getSingleDoctor,
+  isDoctor,
+  updateDoctor,
+};
