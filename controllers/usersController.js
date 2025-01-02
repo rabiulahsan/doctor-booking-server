@@ -51,7 +51,7 @@ const getSingleUser = async (req, res) => {
     return res.status(400).send({ message: "Id is required" });
   }
 
-  const query = { _id: new ObjectId(id) }; // Simplified query object creation
+  const query = { _id: new ObjectId(String(id)) }; // Simplified query object creation
   //   console.log("Query:", query);
 
   try {

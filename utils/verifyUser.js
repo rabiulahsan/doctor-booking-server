@@ -1,4 +1,4 @@
-//verify doctor
+//verify  user
 
 const { db } = require("./dbconnection");
 

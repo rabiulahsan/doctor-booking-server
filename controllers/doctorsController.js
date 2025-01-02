@@ -51,7 +51,7 @@ const getSingleDoctor = async (req, res) => {
   if (!id) {
     return res.status(400).send({ message: "id  is required" });
   }
-  const query = { _id: new ObjectId(id) };
+  const query = { _id: new ObjectId(String(id)) };
   try {
     const doctor = await doctorsCollection.findOne(query); // Find doctor by email
     if (doctor) {
